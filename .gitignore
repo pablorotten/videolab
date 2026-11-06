@@ -1,1 +1,4 @@
-/PLAN.md
+node_modules/
+apps/*/raw/
+apps/*/out/
+*.mp4
