@@ -1,0 +1,19 @@
+{
+  "name": "videolab",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Recorder + Remotion studio for producing real-footage demo videos of my apps.",
+  "type": "module",
+  "bin": {
+    "videolab": "bin/recorder.js"
+  },
+  "scripts": {
+    "record": "node bin/recorder.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "playwright": "^1.65.0"
+  }
+}
