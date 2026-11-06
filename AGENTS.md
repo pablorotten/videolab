@@ -33,11 +33,11 @@ studio/       # Remotion project
 apps/<app>/   # flows/, raw/, out/
 ```
 
-## Chosen directions (tentative)
+## Chosen directions (decided, Phase 0)
 
-- Recorder: Microsoft `playwright-cli` first; `testreel` as a lower-code alternative.
+- Recorder: Microsoft `playwright-cli` (decided 2026-11-06); `testreel` remains a fallback if the CLI captures poor footage.
 - Editor: Remotion.
-- Optional: Videowright if we want a pure explainer instead of real footage.
+- First target app: **movie-kombat** (`C:\Users\pablo\DEV\projects\movie-kombat`, Vite + React, runs with `npm run dev` on port 5173). Its flows live in videolab under `apps/movie-kombat/`.
 
 ## Hard rules
 

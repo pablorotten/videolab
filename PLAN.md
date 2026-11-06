@@ -8,26 +8,24 @@ Every phase starts with a checkpoint with the user before installing anything.
 
 ---
 
-## Phase 0 — Confirm open decisions (with user)
+## Phase 0 — Confirm open decisions ✅ (2026-11-06)
 
-Before any install, settle the choices flagged in README.md:
+Settled:
 
-1. **Recorder engine** — Microsoft `playwright-cli` (recommended base) vs
-   `testreel` (zero-glue JSON steps) vs plain Playwright script + ffmpeg.
-   Default: `playwright-cli`.
-2. **Composer engine** — Remotion (recommended) vs Videowright.
-   Default: Remotion.
-3. **First target app** — which repo, and its 2–3 demo flows.
-4. **OpenCode permissions** — add videolab + the target app path to
-   `external_directory` so a session in the app repo can write assets here.
-
-Output: decisions recorded in AGENTS.md, nothing installed yet.
+1. **Recorder engine**: Microsoft `playwright-cli` (testreel/plain-Playwright as fallback).
+2. **Composer engine**: Remotion.
+3. **First target app**: `movie-kombat` (`C:\Users\pablo\DEV\projects\movie-kombat`,
+   Vite + React; starts with `npm run dev`, default URL `http://localhost:5173`).
+   Its 2–3 demo flows to be chosen in Phase 2.
+4. **OpenCode permissions**: *pending* — add videolab and
+   `movie-kombat` to `external_directory` so the app-repo session
+   can write assets here (user action, before Phase 2 E2E).
 
 ## Phase 1 — Repo foundation
 
 1. `git init`, first commit of README/AGENTS/PLAN.
 2. Create `.gitignore`: `node_modules/`, `apps/*/raw/`, `apps/*/out/`, `*.mp4`.
-3. Create directory skeleton: `bin/`, `studio/`, `apps/<app>/{flows,raw,out}`.
+3. Create directory skeleton: `bin/`, `studio/`, `apps/movie-kombat/{flows,raw,out}`.
 4. `npm init` at repo root — **vs separate `bin/package.json` / `studio/package.json`**
    (hard rule: never shared `node_modules` with target apps; a single root
    workspace is fine and keeps installs simple). Decide with user.
