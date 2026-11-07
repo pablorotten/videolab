@@ -9,8 +9,10 @@ The model writes and runs code. It never generates video pixels.
 
 ## Status
 
-Rebuilt from scratch (v0.2). Not yet tested end to end. Chromium for Playwright
-is not installed; ask before installing it.
+Rebuilt from scratch (v0.2). First end-to-end run passed: `movie-kombat/library-tour`
+recorded and composed to `out/library-tour.mp4` (22.6 s). Timings and zooms in its
+`video.json` are a first draft; tune them after watching the output.
+Chromium for Playwright is installed.
 
 ## Layout
 

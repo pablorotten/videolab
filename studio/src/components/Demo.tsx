@@ -78,7 +78,7 @@ export const Demo: React.FC<DemoProps> = ({
           />
           {captions.map((caption) => (
             <Sequence key={`${caption.from}-${caption.text}`} from={caption.from} durationInFrames={caption.durationInFrames}>
-              <Caption text={caption.text} />
+              <Caption text={caption.text} frames={caption.durationInFrames} />
             </Sequence>
           ))}
         </AbsoluteFill>

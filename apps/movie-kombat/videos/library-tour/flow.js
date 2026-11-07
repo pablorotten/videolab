@@ -15,10 +15,10 @@ export default async function libraryTour({ page, log, demo }) {
 
   const search = page.getByPlaceholder("Search movie...");
   await search.waitFor({ state: "visible", timeout: 15000 });
-  await page.waitForTimeout(1200);
+  await page.waitForTimeout(2000);
 
   log("searching for a movie");
-  await search.fill("The Matrix");
+  await search.pressSequentially("The Matrix", { delay: 120 });
   await page.waitForFunction(() => document.querySelector('[placeholder="Search movie..."]')?.value === "The Matrix");
 
   const result = page
@@ -26,11 +26,11 @@ export default async function libraryTour({ page, log, demo }) {
     .filter({ has: page.getByRole("heading", { name: "The Matrix", exact: true }) })
     .first();
   await result.waitFor({ state: "visible", timeout: 20000 });
-  await page.waitForTimeout(1800);
+  await page.waitForTimeout(2800);
 
   log("adding the movie to the list");
   await result.getByRole("button", { name: /Add to List/i }).click();
-  await page.waitForTimeout(1800);
+  await page.waitForTimeout(2800);
 
   log("removing the movie from the list");
   const added = page
@@ -38,5 +38,5 @@ export default async function libraryTour({ page, log, demo }) {
     .filter({ has: page.getByRole("heading", { name: "The Matrix", exact: true }) })
     .first();
   await added.getByRole("button", { name: /Remove/i }).click();
-  await page.waitForTimeout(1500);
+  await page.waitForTimeout(3000);
 }

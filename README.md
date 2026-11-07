@@ -22,7 +22,7 @@ node C:/Users/pablo/DEV/projects/videolab/bin/videolab.js compose library-tour
 
 Output: `apps/<app>/videos/<video>/out/<video>.mp4`.
 
-## One-time setup (not done yet)
+## Setup (done on this machine)
 
 ```
 npm install
