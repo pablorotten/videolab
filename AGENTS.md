@@ -55,6 +55,8 @@ Times are seconds relative to the recording; `intro` and `outro` are seconds too
 
 - `title`, `subtitle`, `tagline`: intro and outro text.
 - `fps` (default 30), `intro` (default 3), `outro` (default 4).
+- `cursor` (default false): draw a pointer and click ripples in the recording. Read by
+  `record`, not `compose`. Headless Chromium does not show the real mouse pointer.
 - `zooms`: keys `{at, scale, originX?, originY?}`. `at` must strictly increase.
   `originX`/`originY` are percentages of the frame and set where the zoom focuses.
   Transitions ease in and out.
