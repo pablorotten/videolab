@@ -52,17 +52,19 @@ Output: clean git repo with skeleton, toolchain ready.
 
 Output: `videolab record <flow>` works from the app repo, produces raw footage.
 
-## Phase 3 — Composer (B)
+## Phase 3 — Composer (B) ✅ (2026-11-07)
 
-1. Scaffold `studio/` as a Remotion project (`studio/package.json`, its own
-   `node_modules`).
-2. Build shared components: `<Intro>`, `<Outro>`, `<Zoom>` (Ken Burns-style
+1. Scaffolded `studio/` as a Remotion project using the root package layout
+   chosen in Phase 0. Remotion 4 + React are installed at the repo root.
+2. Built shared components: `<Intro>`, `<Outro>`, `<Zoom>` (Ken Burns-style
    zoom on raw footage), `<Caption>` (timing data from the flow script).
-3. **Composition config** — a small per-app file in `apps/<app>/` that maps raw
+3. Added the first composition config in `studio/src/DemoVideo.tsx`, mapping raw
    footage + flow metadata → Remotion compositions (intro/outro, segment order,
    caption timings).
-4. Render milestone: re-render flow 1 with intro + outro + 1–2 zooms into
-   `apps/<app>/out/<app>-<flow>.mp4`.
+4. Rendered `apps/movie-kombat/out/movie-kombat-collection-kombat.mp4`:
+   67.8 seconds, 1280×800, with intro, outro, five timed captions, and zooms.
+5. Added `videolab compose <flow>`; it normalizes Chromium WebM with ffmpeg and
+   invokes the Remotion render.
 
 Output: `videolab compose <flow>` produces a finished MP4.
 

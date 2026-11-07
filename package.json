@@ -8,12 +8,21 @@
     "videolab": "bin/recorder.js"
   },
   "scripts": {
-    "record": "node bin/recorder.js"
+    "record": "node bin/recorder.js",
+    "compose": "node bin/compose.js",
+    "studio": "remotion studio studio/src/index.ts",
+    "render": "remotion render studio/src/index.ts MovieKombatDemo"
   },
   "engines": {
     "node": ">=22"
   },
   "devDependencies": {
-    "playwright": "^1.65.0"
+    "@remotion/cli": "^4.0.541",
+    "playwright": "^1.65.0",
+    "remotion": "^4.0.541"
+  },
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   }
 }

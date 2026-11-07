@@ -2,3 +2,5 @@ node_modules/
 apps/*/raw/
 apps/*/out/
 *.mp4
+studio/public/
+public/
