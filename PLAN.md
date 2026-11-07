@@ -58,15 +58,17 @@ Output: `videolab record <flow>` works from the app repo, produces raw footage.
    chosen in Phase 0. Remotion 4 + React are installed at the repo root.
 2. Built shared components: `<Intro>`, `<Outro>`, `<Zoom>` (Ken Burns-style
    zoom on raw footage), `<Caption>` (timing data from the flow script).
-3. Added the first composition config in `studio/src/DemoVideo.tsx`, mapping raw
-   footage + flow metadata → Remotion compositions (intro/outro, segment order,
-   caption timings).
+3. Added per-video configuration in `apps/movie-kombat/videos/collection-kombat.json`;
+   the shared composition reads that data and maps it to reusable intro/outro,
+   captions, zooms, and optional split-screen treatments.
 4. Rendered `apps/movie-kombat/out/movie-kombat-collection-kombat.mp4`:
    67.8 seconds, 1280×800, with intro, outro, five timed captions, and zooms.
-5. Added `videolab compose <flow>`; it normalizes Chromium WebM with ffmpeg and
-   invokes the Remotion render.
+5. Added `videolab compose <flow>`; it reads the app's per-video JSON, normalizes
+   Chromium WebM with ffmpeg, and invokes the generic Remotion render. App agents
+   can create/update app video configs without modifying `studio/src/`.
 
-Output: `videolab compose <flow>` produces a finished MP4.
+Output: `videolab compose <flow>` produces a finished MP4. The first post-refactor
+compose run passed from the app repo using the explicit CLI path.
 
 ## Phase 4 — End-to-end validation
 

@@ -4,10 +4,10 @@
 //   npx <path-to-videolab> compose collection-kombat
 
 import { existsSync } from 'node:fs';
-import { mkdir, readFile, copyFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 
 const VIDEOLAB_ROOT = process.env.VIDEOLAB_ROOT || path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const log = (...messages) => console.log('[videolab]', ...messages);
@@ -32,6 +32,10 @@ async function main() {
   const rawVideo = path.join(VIDEOLAB_ROOT, 'apps', appName, 'raw', `${flowName}.webm`);
   if (!existsSync(rawVideo)) throw new Error(`raw footage not found: ${rawVideo}`);
 
+  const videoConfigPath = path.join(VIDEOLAB_ROOT, 'apps', appName, 'videos', `${flowName}.json`);
+  if (!existsSync(videoConfigPath)) throw new Error(`video config not found: ${videoConfigPath}`);
+  const videoConfig = JSON.parse(await readFile(videoConfigPath, 'utf8'));
+
   // Remotion seeks H.264 more reliably than long Chromium WebM recordings.
   const publicDir = path.join(VIDEOLAB_ROOT, 'public', appName);
   const normalizedVideo = path.join(publicDir, `${flowName}.mp4`);
@@ -43,18 +47,25 @@ async function main() {
     '-pix_fmt', 'yuv420p', '-r', '30', '-an', normalizedVideo,
   ], { stdio: 'inherit' });
 
-  // The first composition uses the movie-kombat asset name. Keep the command
-  // explicit until per-app composition configs are introduced.
-  const expectedAsset = path.join(publicDir, 'collection-kombat.mp4');
-  if (normalizedVideo !== expectedAsset) await copyFile(normalizedVideo, expectedAsset);
-  const output = path.join(VIDEOLAB_ROOT, 'apps', appName, 'out', `${appName}-${flowName}.mp4`);
-  await mkdir(path.dirname(output), { recursive: true });
-
-  log(`rendering ${output}`);
+  const configFile = `apps/${appName}/videos/${flowName}.json`;
+  const runtimeConfig = {
+    compositionId: `${appName}-${flowName}`.replace(/[^a-zA-Z0-9_-]/g, '-'),
+    videoAsset: `${appName}/${flowName}.mp4`,
+    config: videoConfig,
+  };
+  await writeFile(path.join(VIDEOLAB_ROOT, 'studio', 'src', 'generated', 'current.json'), JSON.stringify(runtimeConfig, null, 2));
+  const outputDir = path.join(VIDEOLAB_ROOT, 'apps', appName, 'out');
+  await mkdir(outputDir, { recursive: true });
   const npx = process.platform === 'win32' ? 'npx.cmd' : 'npx';
-  execFileSync(npx, [
-    'remotion', 'render', 'studio/src/index.ts', 'MovieKombatDemo', output, '--overwrite',
-  ], { cwd: VIDEOLAB_ROOT, stdio: 'inherit' });
+  const output = path.join(outputDir, `${appName}-${flowName}.mp4`);
+  const composition = runtimeConfig.compositionId;
+  log(`rendering ${composition} to ${output}`);
+  log(`using per-video config ${configFile}`);
+  const result = spawnSync(npx, [
+    'remotion', 'render', 'studio/src/index.ts', composition, output, '--overwrite',
+  ], { cwd: VIDEOLAB_ROOT, stdio: 'inherit', shell: process.platform === 'win32' });
+  if (result.error) throw result.error;
+  if (result.status !== 0) throw new Error(`Remotion exited with status ${result.status}`);
   log('finished:', output);
 }
 

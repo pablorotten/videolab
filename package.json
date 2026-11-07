@@ -10,8 +10,7 @@
   "scripts": {
     "record": "node bin/recorder.js",
     "compose": "node bin/compose.js",
-    "studio": "remotion studio studio/src/index.ts",
-    "render": "remotion render studio/src/index.ts MovieKombatDemo"
+    "studio": "remotion studio studio/src/index.ts"
   },
   "engines": {
     "node": ">=22"
