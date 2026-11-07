@@ -1,6 +1,6 @@
 node_modules/
-apps/*/raw/
-apps/*/out/
 *.mp4
-studio/public/
-public/
+*.webm
+apps/*/videos/*/raw/
+apps/*/videos/*/render/
+apps/*/videos/*/out/

@@ -1,51 +1,68 @@
 # videolab — agent context
 
-This repo is the video lab for recording and editing demos of my apps.
+Video lab for recording and editing demos of my apps.
 
-## What it is
+- **Record**: Playwright drives the real running app and saves footage.
+- **Compose**: Remotion adds intro, outro, zooms, and captions to that footage.
 
-- **A (record)**: Playwright drives a real app and captures footage.
-- **B (compose)**: Remotion adds intro, outro, zooms, captions, voiceover.
+The model writes and runs code. It never generates video pixels.
 
-The model writes and runs code; it never generates video pixels.
+## Status
 
-## Current status
+Rebuilt from scratch (v0.2). Not yet tested end to end. Chromium for Playwright
+is not installed; ask before installing it.
 
-**Scaffold only.** No git, no `package.json`, no dependencies installed.
-Do not assume any tooling exists yet. Confirm setup steps with the user before
-installing packages or downloading browsers/assets.
-
-## Conventions
-
-- The app under test lives in its own repo and must run from there.
-- An OpenCode session for recording should start in the app repo, not here.
-- videolab is invoked as a CLI/tool; do not `cd` into it to work.
-- Per-app files go under `apps/<app>/` (flows, raw, out).
-- Final videos go to `apps/<app>/out/`; raw footage is disposable.
-- No shared `node_modules` between videolab and target apps.
-- Keep `demo.yml` in the target app repo; keep all video assets here.
-
-## Planned layout
+## Layout
 
 ```
-bin/          # recorder CLI
-studio/       # Remotion project
-apps/<app>/   # flows/, raw/, out/
+bin/videolab.js                  CLI entry: list | record <video> | compose <video>
+lib/                             recorder, composer, app/path helpers (do not edit per video)
+studio/src/                      Remotion project: generic Demo composition (do not edit per video)
+apps/<app>/videos/<video>/       one self-contained workspace per video
+  flow.js                        Playwright script (default export)
+  video.json                     timing, zooms, captions (source of truth for the edit)
+  raw/footage.webm               generated, gitignored, disposable
+  render/                        generated, gitignored (normalized MP4, props.json)
+  out/<video>.mp4                generated, gitignored, the final video
 ```
 
-## Chosen directions (decided, Phase 0)
+## Contract for agents working from an app repo
 
-- Recorder: Microsoft `playwright-cli` (decided 2026-11-06); `testreel` remains a fallback if the CLI captures poor footage.
-- Editor: Remotion.
-- First target app: **movie-kombat** (`C:\Users\pablo\DEV\projects\movie-kombat`, Vite + React, runs with `npm run dev` on port 5173). Its flows live in videolab under `apps/movie-kombat/`.
+Run videolab from the app repo (the one with `demo.yml`), never `cd` into videolab:
+
+```
+node <videolab>/bin/videolab.js list
+node <videolab>/bin/videolab.js record <video>
+node <videolab>/bin/videolab.js compose <video>
+```
+
+The app repo keeps only `demo.yml` (`name`, `start_command`, `url`, `viewport`).
+`name` must match the folder under `apps/`.
+
+To make a new video, copy an existing `apps/<app>/videos/<video>/` folder and edit
+its `flow.js` and `video.json`.
+
+**May edit:** `apps/<app>/videos/<video>/flow.js` and `video.json` for the app being recorded.
+
+**Never edit:** `bin/`, `lib/`, `studio/`, `package.json`, the lockfile, another app's
+folder, or any `raw/`, `render/`, `out/` directory.
+
+## video.json
+
+Times are seconds relative to the recording; `intro` and `outro` are seconds too.
+
+- `title`, `subtitle`, `tagline`: intro and outro text.
+- `fps` (default 30), `intro` (default 3), `outro` (default 4).
+- `zooms`: keys `{at, scale, originX?, originY?}`. `at` must strictly increase.
+  `originX`/`originY` are percentages of the frame and set where the zoom focuses.
+  Transitions ease in and out.
+- `captions`: `{from, duration, text}`.
 
 ## Hard rules
 
-- Never fake app behavior in a demo. If it is a product demo, it must record the
-  real UI. Recomposed/mocked footage belongs to marketing, not evidence.
-- Do not commit MP4s or `raw/`.
-- Do not install the storylab/stickman tooling here.
-
-## Next step
-
-Scaffold the recorder and one app config, then record a single flow end to end.
+- Never fake app behavior. Demo footage must come from the real UI. Zooms, captions,
+  intro, and outro are fine; replaying one take as if it were several, or any
+  simulated result, is not.
+- Do not commit MP4s, WebMs, `raw/`, `render/`, or `out/`.
+- Do not install storylab/stickman tooling here.
+- No shared `node_modules` between videolab and target apps.

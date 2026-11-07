@@ -1,76 +1,40 @@
 # videolab
 
-Shared video lab for producing demo videos of my apps.
+Produces demo videos from real app footage.
 
-Two layers, one repo:
+- **Record** (`lib/record.js`): starts the app from its `demo.yml`, runs a Playwright
+  flow against it, and saves the footage.
+- **Compose** (`lib/compose.js`, `studio/`): renders that footage with a Remotion
+  composition: intro, outro, zooms, captions.
 
-- **A — Record**: drive a real running app with Playwright, capture actual footage,
-  encode with ffmpeg. Evidence, not recreation.
-- **B — Compose**: take that footage into Remotion and add intro, outro, zooms,
-  captions, and optional voiceover.
+Each video is one folder under `apps/<app>/videos/<video>/`. See `AGENTS.md` for the
+folder layout and the rules for agents.
 
-The models in OpenCode do not generate video. They write and run code (browser
-scripts, Remotion components, ffmpeg commands); the video is the output of that
-code rendering the real app.
+## Usage
 
-## Why a separate repo
-
-- Keeps app repos clean: no video dependencies, no browser tooling, no large assets.
-- Central place for brand, shared intros/outros, and reusable Remotion components.
-- One recorder and one editing setup for every app.
-
-## Architecture (planned, not built yet)
+From the app repo (the one with `demo.yml`):
 
 ```
-videolab/
-  bin/                 # A: recorder CLI (Playwright)
-  studio/              # B: Remotion project
-  apps/
-    <app>/
-      flows/           # scenario definitions for that app
-      raw/             # captured footage (gitignored)
-      out/             # final MP4s (gitignored)
+node C:/Users/pablo/DEV/projects/videolab/bin/videolab.js list
+node C:/Users/pablo/DEV/projects/videolab/bin/videolab.js record library-tour
+node C:/Users/pablo/DEV/projects/videolab/bin/videolab.js compose library-tour
 ```
 
-Each target app repo keeps only a small `demo.yml` describing how to start it
-(start command, URL, seed, viewport). All video assets and outputs live here.
+Output: `apps/<app>/videos/<video>/out/<video>.mp4`.
 
-## How it is meant to be used
+## One-time setup (not done yet)
 
-1. Open an OpenCode session **in the app repo** (the app must run from there).
-2. Ask the agent to use videolab to record a flow.
-3. The recorder starts the app, drives the real UI, and writes footage to
-   `videolab/apps/<app>/raw/`.
-4. Render with Remotion into `videolab/apps/<app>/out/`.
+```
+npm install
+npx playwright install chromium
+```
 
-The agent should *invoke* videolab as a CLI, not `cd` into it.
+Needs Node 22+ and `ffmpeg`/`ffprobe` on the PATH.
 
-## Status
+## Studio preview
 
-**Not initialized.** No git, no `package.json`, no dependencies installed.
-This is a purpose/context scaffold only.
+```
+npm run studio
+```
 
-## Decisions still open
-
-- **A engine**: Microsoft `playwright-cli` (official, animated cursor, chapters)
-  vs `testreel` (JSON steps, window chrome, MP4/GIF) vs plain Playwright video.
-  Recommendation so far: `playwright-cli` as the base, `testreel` if we want
-  zero-glue JSON configs.
-- **B engine**: Remotion (recommended) vs Videowright (HTML/CSS segments +
-  voiceover pipeline).
-- First target app and first 2–3 flows to record.
-
-## Environment facts
-
-- Windows, working from `C:\Users\pablo\DEV\projects`.
-- Node `v24.22.0`, npm `11.10.0`, ffmpeg `9.0.2` already installed.
-- Playwright's Chromium is **not** installed yet.
-- OpenCode here is v2.2.5; models are text-only, so all video work is code-driven.
-- `external_directory` permission currently allows only the `learn-english`
-  reference. Add videolab and the target app paths when wiring this up.
-
-## Non-goals
-
-- Text-to-video models (Veo, Sora, Kling). Not integrated in OpenCode, and they
-  cannot show a real app.
-- Faceless/stickman story videos. That is `storylab`, deliberately separate.
+The preview shows placeholder props. Real renders read `render/props.json`.

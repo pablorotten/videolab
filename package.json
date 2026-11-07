@@ -1,15 +1,14 @@
 {
   "name": "videolab",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Recorder + Remotion studio for producing real-footage demo videos of my apps.",
+  "description": "Records real app UI with Playwright and composes it into demo videos with Remotion.",
   "type": "module",
   "bin": {
-    "videolab": "bin/recorder.js"
+    "videolab": "bin/videolab.js"
   },
   "scripts": {
-    "record": "node bin/recorder.js",
-    "compose": "node bin/compose.js",
+    "videolab": "node bin/videolab.js",
     "studio": "remotion studio studio/src/index.ts"
   },
   "engines": {

@@ -1,59 +1,37 @@
 import React from 'react';
-import { Composition, staticFile } from 'remotion';
-import { GenericDemo, type VideoConfig } from './components/GenericDemo';
-import generatedVideo from './generated/current.json';
+import { Composition } from 'remotion';
+import { Demo, type DemoProps } from './components/Demo';
 
-const movieKombatConfig: VideoConfig = {
-  title: 'Movie Kombat',
-  subtitle: 'Find your next favorite film',
-  tagline: 'Your next favorite is waiting.',
+// Placeholder for the Remotion studio preview. Real renders get props from compose.
+const preview: DemoProps = {
+  videoSrc: 'footage.mp4',
+  title: 'Demo',
+  subtitle: '',
+  tagline: '',
   fps: 30,
   width: 1280,
   height: 800,
-  videoFrames: 1824,
   introFrames: 90,
+  videoFrames: 300,
   outroFrames: 120,
-  zooms: [
-    { at: 0, scale: 1 },
-    { at: 130, scale: 1.13 },
-    { at: 260, scale: 1.02 },
-    { at: 410, scale: 1.17 },
-    { at: 560, scale: 1.03 },
-    { at: 720, scale: 1.08 },
-    { at: 900, scale: 1 },
-    { at: 1110, scale: 1.06 },
-    { at: 1320, scale: 1.02 },
-    { at: 1500, scale: 1 },
-  ],
-  splits: { from: 1050, to: 1590, labels: ['KOMBAT 01', 'KOMBAT 02', 'KOMBAT 03'] },
-  captions: [
-    { from: 150, durationInFrames: 100, text: 'Build your movie list' },
-    { from: 360, durationInFrames: 110, text: 'Search. Add. Curate.' },
-    { from: 620, durationInFrames: 100, text: 'Remove movies anytime' },
-    { from: 900, durationInFrames: 100, text: 'Pick your contenders' },
-    { from: 1710, durationInFrames: 90, text: 'One movie takes the crown' },
-  ],
+  zooms: [{ at: 0, scale: 1, originX: 50, originY: 50 }],
+  captions: [],
 };
 
 export const Root: React.FC = () => (
-  <>
-    <Composition
-      id="MovieKombatDemo"
-      component={GenericDemo}
-      durationInFrames={movieKombatConfig.introFrames + movieKombatConfig.videoFrames + movieKombatConfig.outroFrames}
-      fps={movieKombatConfig.fps}
-      width={movieKombatConfig.width}
-      height={movieKombatConfig.height}
-      defaultProps={{ videoSrc: staticFile('movie-kombat/collection-kombat.mp4'), config: movieKombatConfig }}
-    />
-    <Composition
-      id={generatedVideo.compositionId}
-      component={GenericDemo}
-      durationInFrames={generatedVideo.config.introFrames + generatedVideo.config.videoFrames + generatedVideo.config.outroFrames}
-      fps={generatedVideo.config.fps}
-      width={generatedVideo.config.width}
-      height={generatedVideo.config.height}
-      defaultProps={{ videoSrc: staticFile(generatedVideo.videoAsset), config: generatedVideo.config as VideoConfig }}
-    />
-  </>
+  <Composition
+    id="Demo"
+    component={Demo}
+    defaultProps={preview}
+    durationInFrames={preview.introFrames + preview.videoFrames + preview.outroFrames}
+    fps={preview.fps}
+    width={preview.width}
+    height={preview.height}
+    calculateMetadata={({ props }) => ({
+      durationInFrames: props.introFrames + props.videoFrames + props.outroFrames,
+      fps: props.fps,
+      width: props.width,
+      height: props.height,
+    })}
+  />
 );
