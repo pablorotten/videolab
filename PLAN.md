@@ -432,6 +432,43 @@ finished promo, not a screen recording.
 
 Total: about 7–9 focused agent days, plus the per-video authoring time.
 
+## Execution plan for this week
+
+Tracked in GitHub:
+
+- Milestone: `v0.4 - dual mode`
+- Epic: #1
+- Work issues: #7 (M0/M1), #4 (M2), #2 (M3), #3 (M4), #6 (M5), #5 (M6), #8 (M7)
+- Labels: `area:*`, `mode:*`, `needs:visual-review`
+
+The concrete sequence:
+
+1. Switch out of plan mode; create the milestone and 7 issues with `gh`, then land
+   the contract PR. (Milestone and issues are created; the contract PR is #7.)
+2. Re-open a worktree for Agent A (capture) and another for Agent B (scene kit).
+   Both against the contract branch.
+3. Agent A captures 10–15 stills early and stores them under its worktree
+   `projects/`; Agent B starts with placeholders and swaps in real stills at
+   integration.
+4. Integration agent lands M4.
+5. You and I drive M6 frame by frame, then land M7 and CI.
+
+Operating notes:
+
+- Phase 0 (#7) blocks everything. Do not spawn capture or scene agents before it
+  merges.
+- **Agent A = capture (#4 + #6).** Both touch `lib/app-lifecycle.js`,
+  `lib/record.js` and the app lifecycle. Only one agent may run the app at a time
+  (port 3000).
+- **Agent B = scene kit (#2).** No app needed; it renders against checked-in
+  placeholder fixtures.
+- **Integration (#3)** rebases on both branches and wires the real stills in.
+- **M6 (#5) is one driver with you reviewing frames.** Do not parallelize taste.
+- Merge order: #7 → (#4, #2) → #3 → #6 → #5 → #8.
+- Every visual PR attaches a contact sheet.
+- Each worktree needs its own `npm install`; Playwright's browser is already
+  installed globally on this machine.
+
 ## Acceptance criteria
 
 A film is done when:
