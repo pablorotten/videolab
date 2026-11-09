@@ -18,7 +18,7 @@ const USAGE = `Usage (run from the app repo that contains demo.yml):
 
 async function list() {
   const demo = await readDemo();
-  const dir = path.join(VIDEOLAB_ROOT, "apps", demo.name, "videos");
+  const dir = path.join(VIDEOLAB_ROOT, "projects", demo.name);
   const names = existsSync(dir)
     ? (await readdir(dir, { withFileTypes: true })).filter((d) => d.isDirectory()).map((d) => d.name)
     : [];

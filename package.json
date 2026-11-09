@@ -1,6 +1,6 @@
 {
   "name": "videolab",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "Records real app UI with Playwright and composes it into demo videos with Remotion.",
   "type": "module",

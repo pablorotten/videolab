@@ -1,6 +1,6 @@
 node_modules/
 *.mp4
 *.webm
-apps/*/videos/*/raw/
-apps/*/videos/*/render/
-apps/*/videos/*/out/
+
+# Per-app video workspaces: scratch state, never tracked
+projects/

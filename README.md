@@ -1,14 +1,12 @@
 # videolab
 
-Produces demo videos from real app footage.
+Produces demo videos from real app footage. This repo is only the tool — no app
+content is tracked here.
 
 - **Record** (`lib/record.js`): starts the app from its `demo.yml`, runs a Playwright
   flow against it, and saves the footage.
 - **Compose** (`lib/compose.js`, `studio/`): renders that footage with a Remotion
   composition: intro, outro, zooms, captions.
-
-Each video is one folder under `apps/<app>/videos/<video>/`. See `AGENTS.md` for the
-folder layout and the rules for agents.
 
 ## Usage
 
@@ -20,7 +18,12 @@ node C:/Users/pablo/DEV/projects/videolab/bin/videolab.js record library-tour
 node C:/Users/pablo/DEV/projects/videolab/bin/videolab.js compose library-tour
 ```
 
-Output: `apps/<app>/videos/<video>/out/<video>.mp4`.
+All per-video files, including the output, are created under
+`projects/<app>/<video>/` in this repo. That folder is gitignored and disposable.
+
+```
+projects/<app>/<video>/out/<video>.mp4
+```
 
 ## Setup (done on this machine)
 
