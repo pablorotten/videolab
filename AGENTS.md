@@ -85,6 +85,16 @@ Times are seconds relative to the recording; `intro` and `outro` are seconds too
   `originX`/`originY` are percentages of the frame and set where the zoom focuses.
   Transitions ease in and out.
 - `captions`: `{from, duration, text}`.
+- `width`/`height` (optional): output window dimensions in pixels. Default to the
+  recorded footage dimensions (no crop). Set them smaller than the footage (e.g.
+  `720`×`1280` over a `1280`×`800` desktop recording) to render a vertical slice of
+  a desktop page that pans/zooms within the footage.
+- `captionStyle`, `introStyle`, `outroStyle` (optional): per-video style overrides
+  merged over the component defaults. Keys include `background`, `color`, `fontFamily`,
+  `fontSize`, `fontWeight`, `border`, `borderRadius`, `boxShadow`, `transform`,
+  `padding` (caption); `background`, `titleColor`, `titleFontSize`, `subtitleColor`,
+  `subtitleFontSize`, `fontWeight` (intro); `background`, `taglineColor`,
+  `taglineFontSize`, `titleColor`, `titleFontSize`, `fontWeight` (outro).
 
 ## Recording pitfalls
 

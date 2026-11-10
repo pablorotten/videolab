@@ -11,6 +11,8 @@ const preview: DemoProps = {
   fps: 30,
   width: 1280,
   height: 800,
+  footageWidth: 1280,
+  footageHeight: 800,
   introFrames: 90,
   videoFrames: 300,
   outroFrames: 120,

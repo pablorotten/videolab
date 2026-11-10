@@ -15,6 +15,8 @@ export type DemoProps = {
   fps: number;
   width: number;
   height: number;
+  footageWidth: number;
+  footageHeight: number;
   introFrames: number;
   videoFrames: number;
   outroFrames: number;
@@ -49,7 +51,7 @@ const zoomAt = (frame: number, keys: ZoomKey[]): ZoomKey => {
 };
 
 export const Demo: React.FC<DemoProps> = ({
-  videoSrc, title, subtitle, tagline, fps, introFrames, videoFrames, outroFrames, zooms, captions, captionStyle, introStyle, outroStyle,
+  videoSrc, title, subtitle, tagline, fps, width, height, footageWidth, footageHeight, introFrames, videoFrames, outroFrames, zooms, captions, captionStyle, introStyle, outroStyle,
 }) => {
   const frame = useCurrentFrame();
   const videoFrame = Math.max(0, frame - introFrames);
@@ -60,6 +62,14 @@ export const Demo: React.FC<DemoProps> = ({
     clamp,
   );
   const zoom = zoomAt(videoFrame, zooms);
+  // Crop mode: output window differs from the recorded footage, so cover-fit the
+  // desktop frame and pan so the zoom origin lands at the window centre.
+  // Non-crop (default): keep the original behaviour — origin stays in place.
+  const isCrop = width !== footageWidth || height !== footageHeight;
+  const coverScale = isCrop ? Math.max(width / footageWidth, height / footageHeight) : 1;
+  const totalScale = coverScale * zoom.scale;
+  const tx = isCrop ? width / 2 - totalScale * (zoom.originX / 100 * footageWidth) : 0;
+  const ty = isCrop ? height / 2 - totalScale * (zoom.originY / 100 * footageHeight) : 0;
 
   return (
     <AbsoluteFill
@@ -76,13 +86,23 @@ export const Demo: React.FC<DemoProps> = ({
           <OffthreadVideo
             src={staticFile(videoSrc)}
             muted
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              transformOrigin: `${zoom.originX}% ${zoom.originY}%`,
-              transform: `scale(${zoom.scale})`,
-            }}
+            style={
+              isCrop
+                ? {
+                    width: footageWidth,
+                    height: footageHeight,
+                    objectFit: 'none',
+                    transformOrigin: '0 0',
+                    transform: `translate(${tx}px, ${ty}px) scale(${totalScale})`,
+                  }
+                : {
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transformOrigin: `${zoom.originX}% ${zoom.originY}%`,
+                    transform: `scale(${zoom.scale})`,
+                  }
+            }
           />
           {captions.map((caption) => (
             <Sequence key={`${caption.from}-${caption.text}`} from={caption.from} durationInFrames={caption.durationInFrames}>
