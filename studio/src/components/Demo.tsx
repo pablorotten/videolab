@@ -1,8 +1,8 @@
 import React from 'react';
 import { AbsoluteFill, Easing, OffthreadVideo, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion';
 import { Caption, type CaptionStyle } from './Caption';
-import { Intro } from './Intro';
-import { Outro } from './Outro';
+import { Intro, type IntroStyle } from './Intro';
+import { Outro, type OutroStyle } from './Outro';
 
 export type ZoomKey = { at: number; scale: number; originX: number; originY: number };
 export type CaptionCue = { from: number; durationInFrames: number; text: string };
@@ -21,6 +21,8 @@ export type DemoProps = {
   zooms: ZoomKey[];
   captions: CaptionCue[];
   captionStyle?: CaptionStyle | null;
+  introStyle?: IntroStyle | null;
+  outroStyle?: OutroStyle | null;
 };
 
 const FADE_FRAMES = 12;
@@ -47,7 +49,7 @@ const zoomAt = (frame: number, keys: ZoomKey[]): ZoomKey => {
 };
 
 export const Demo: React.FC<DemoProps> = ({
-  videoSrc, title, subtitle, tagline, fps, introFrames, videoFrames, outroFrames, zooms, captions, captionStyle,
+  videoSrc, title, subtitle, tagline, fps, introFrames, videoFrames, outroFrames, zooms, captions, captionStyle, introStyle, outroStyle,
 }) => {
   const frame = useCurrentFrame();
   const videoFrame = Math.max(0, frame - introFrames);
@@ -67,7 +69,7 @@ export const Demo: React.FC<DemoProps> = ({
       }}
     >
       <Sequence durationInFrames={introFrames} premountFor={fps}>
-        <Intro title={title} subtitle={subtitle} frames={introFrames} />
+        <Intro title={title} subtitle={subtitle} frames={introFrames} style={introStyle} />
       </Sequence>
       <Sequence from={introFrames} durationInFrames={videoFrames} premountFor={fps}>
         <AbsoluteFill style={{ opacity, overflow: 'hidden' }}>
@@ -90,7 +92,7 @@ export const Demo: React.FC<DemoProps> = ({
         </AbsoluteFill>
       </Sequence>
       <Sequence from={introFrames + videoFrames} durationInFrames={outroFrames}>
-        <Outro title={title} tagline={tagline} frames={outroFrames} />
+        <Outro title={title} tagline={tagline} frames={outroFrames} style={outroStyle} />
       </Sequence>
     </AbsoluteFill>
   );
