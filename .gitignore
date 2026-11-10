@@ -7,3 +7,7 @@ projects/**/raw/
 projects/**/render/
 projects/**/out/
 projects/**/flow-timings.json
+
+# Agent tooling (regenerable via `npx remotion skills add`)
+.agents/
+.claude/
