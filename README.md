@@ -15,6 +15,7 @@ From the app repo (the one with `demo.yml`):
 ```
 node C:/Users/pablo/DEV/projects/videolab/bin/videolab.js list
 node C:/Users/pablo/DEV/projects/videolab/bin/videolab.js record library-tour
+node C:/Users/pablo/DEV/projects/videolab/bin/videolab.js studio library-tour
 node C:/Users/pablo/DEV/projects/videolab/bin/videolab.js compose library-tour
 ```
 
@@ -34,10 +35,18 @@ npx playwright install chromium
 
 Needs Node 22+ and `ffmpeg`/`ffprobe` on the PATH.
 
-## Studio preview
+## Preview before rendering
+
+`studio` prepares `render/footage.mp4` and `render/props.json`, then opens Remotion
+Studio with the video's real footage and edit. It does not render:
 
 ```
-npm run studio
+node C:/Users/pablo/DEV/projects/videolab/bin/videolab.js studio library-tour
 ```
 
-The preview shows placeholder props. Real renders read `render/props.json`.
+The command watches `video.json` and the raw footage, so saving an edit refreshes the
+preview live. It keeps running until you stop it (Ctrl+C). Only run `compose` once the
+user approves the preview.
+
+`npm run studio` (from this repo) opens the Studio with placeholder props, for
+developing the composition itself. Real renders read `render/props.json`.

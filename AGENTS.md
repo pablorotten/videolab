@@ -41,6 +41,7 @@ Run the CLI from the app repo, never `cd` into videolab:
 ```
 node <videolab>/bin/videolab.js list
 node <videolab>/bin/videolab.js record <video>
+node <videolab>/bin/videolab.js studio <video>
 node <videolab>/bin/videolab.js compose <video>
 ```
 
@@ -51,6 +52,26 @@ To make a new video, copy an existing `projects/<app>/<video>/` folder and edit 
 
 **Never edit:** `bin/`, `lib/`, `studio/`, another app's `projects/` folder, or any
 `raw/`, `render/`, `out/` directory.
+
+## Preview before composing
+
+`studio` prepares `render/footage.mp4` and `render/props.json` and opens Remotion
+Studio with the video's real footage and edit. It does not render:
+
+```
+node <videolab>/bin/videolab.js studio <video>
+```
+
+- The final video is produced only by `compose`. Do not render before the user has
+  approved the preview.
+- The command watches `video.json` and `raw/footage.webm`. Saving an edit rewrites
+  `render/props.json`, and Studio picks it up live — no restart needed.
+- `video.json` is the source of truth. The Studio props panel edits only the browser
+  copy; translate requested changes into `video.json`.
+- Port defaults to 3000 and falls back to the next free port. Tell the user the URL.
+- The server runs from the videolab root, but invoke the command from the app repo.
+- The command keeps running until stopped (Ctrl+C). Run it in the background so the
+  agent can keep editing `video.json` while the user reviews.
 
 ## video.json
 
@@ -79,6 +100,8 @@ Times are seconds relative to the recording; `intro` and `outro` are seconds too
 - Never fake app behavior. Demo footage must come from the real UI. Zooms, captions,
   intro, and outro are fine; replaying one take as if it were several, or any
   simulated result, is not.
+- Preview before composing: run `studio`, iterate on `video.json` until the user
+  approves, and only then run `compose`.
 - Nothing under `projects/` is ever committed, and no video, footage, or app-specific
   file belongs anywhere else in this repo.
 - Do not write anything into the app repo.
