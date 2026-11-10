@@ -1,6 +1,6 @@
 import React from 'react';
 import { AbsoluteFill, Easing, OffthreadVideo, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion';
-import { Caption } from './Caption';
+import { Caption, type CaptionStyle } from './Caption';
 import { Intro } from './Intro';
 import { Outro } from './Outro';
 
@@ -20,6 +20,7 @@ export type DemoProps = {
   outroFrames: number;
   zooms: ZoomKey[];
   captions: CaptionCue[];
+  captionStyle?: CaptionStyle | null;
 };
 
 const FADE_FRAMES = 12;
@@ -46,7 +47,7 @@ const zoomAt = (frame: number, keys: ZoomKey[]): ZoomKey => {
 };
 
 export const Demo: React.FC<DemoProps> = ({
-  videoSrc, title, subtitle, tagline, fps, introFrames, videoFrames, outroFrames, zooms, captions,
+  videoSrc, title, subtitle, tagline, fps, introFrames, videoFrames, outroFrames, zooms, captions, captionStyle,
 }) => {
   const frame = useCurrentFrame();
   const videoFrame = Math.max(0, frame - introFrames);
@@ -83,7 +84,7 @@ export const Demo: React.FC<DemoProps> = ({
           />
           {captions.map((caption) => (
             <Sequence key={`${caption.from}-${caption.text}`} from={caption.from} durationInFrames={caption.durationInFrames}>
-              <Caption text={caption.text} frames={caption.durationInFrames} />
+              <Caption text={caption.text} frames={caption.durationInFrames} style={captionStyle} />
             </Sequence>
           ))}
         </AbsoluteFill>

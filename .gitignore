@@ -2,5 +2,8 @@ node_modules/
 *.mp4
 *.webm
 
-# Per-app video workspaces: scratch state, never tracked
-projects/
+# Per-app video workspaces: scripts/config are tracked; generated media is not
+projects/**/raw/
+projects/**/render/
+projects/**/out/
+projects/**/flow-timings.json

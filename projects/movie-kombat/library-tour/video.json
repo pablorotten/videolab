@@ -1,0 +1,24 @@
+{
+  "title": "Movie Kombat",
+  "subtitle": "Build your movie list",
+  "tagline": "Your next favorite is waiting.",
+  "fps": 30,
+  "intro": 3,
+  "outro": 4,
+  "cursor": true,
+  "zooms": [
+    { "at": 0, "scale": 1 },
+    { "at": 2.5, "scale": 1.3, "originX": 50, "originY": 35 },
+    { "at": 5, "scale": 1.3, "originX": 50, "originY": 35 },
+    { "at": 7, "scale": 1.15, "originX": 50, "originY": 60 },
+    { "at": 9.5, "scale": 1.15, "originX": 50, "originY": 60 },
+    { "at": 10.5, "scale": 1.3, "originX": 12, "originY": 45 },
+    { "at": 12.5, "scale": 1.3, "originX": 12, "originY": 45 },
+    { "at": 14, "scale": 1 }
+  ],
+  "captions": [
+    { "from": 2.5, "duration": 2.5, "text": "Search for any movie" },
+    { "from": 9.5, "duration": 2.5, "text": "Add it to your list" },
+    { "from": 12.5, "duration": 2.5, "text": "Remove it anytime" }
+  ]
+}
