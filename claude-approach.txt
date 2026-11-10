@@ -1,0 +1,12 @@
+Tell me how you did the promo video, what tools you used. (short recap)
+
+>>>
+Everything was done with code. There was no video editor or AI video generator involved.
+
+1. Screenshots: Playwright with headless Chromium. A Node script (capture.mjs) opened your running dev app on the Kestrel Ridge demo project. It took 2× resolution screenshots of each page, plus states after real interactions: opening the Wind 1 editor, scrolling, clicking through the results tabs, and picking two runs to compare. It also logged where each click happened so the fake cursor could land in the right spot.
+2. Animation: one HTML page with CSS 3D. promo.html places the screenshots in browser-window frames inside a 3D scene, using the logo's brand colours and the IBM Plex fonts. A single render(t) function sets every element's position, rotation and opacity for a given time t, so any frame can be redrawn exactly. That covers the camera moves, captions, cursor, click ripples, the "Solving…" card, the stack and the wall.
+3. Frame capture: Playwright again. render.mjs stepped t from 0 to 46 s at 60 fps, took a screenshot of each of the 2,760 frames, and piped them into ffmpeg. The smoothness fixes were made here: lighter images, waiting until each frame was fully drawn, and fading the windows individually rather than as a group.
+4. Music: Python with numpy and scipy. music.py synthesizes every sound from scratch: pad, kick, bass, arpeggio, chimes, whooshes, clicks and the riser. Each sound is placed at timestamps taken from the video's timeline.
+5. Encoding: ffmpeg. It encoded the H.264 master, set the music to standard web loudness, combined audio and video, and made the 720p MP4, the WebM version and the README GIF.
+
+The scripts lived in this session's scratchpad folder, /tmp/claude-1000/-home-francois-Documents-Projects-odys-ui/cf79739f-f945-49c4-9d00-593fba3ea0bc/scratchpad/video/. That's temporary storage, and it may already be gone after the restart. If you want to rebuild or tweak the video later, I can move the scripts into the repo, for example under media/source/, if they still exist.

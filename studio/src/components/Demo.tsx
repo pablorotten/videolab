@@ -59,7 +59,12 @@ export const Demo: React.FC<DemoProps> = ({
   const zoom = zoomAt(videoFrame, zooms);
 
   return (
-    <AbsoluteFill style={{ backgroundColor: '#0b1020', fontFamily: 'Arial, sans-serif' }}>
+    <AbsoluteFill
+      style={{
+        backgroundColor: '#0b1020',
+        fontFamily: 'Arial, sans-serif'
+      }}
+    >
       <Sequence durationInFrames={introFrames} premountFor={fps}>
         <Intro title={title} subtitle={subtitle} frames={introFrames} />
       </Sequence>
