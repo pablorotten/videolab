@@ -193,8 +193,8 @@ re-running `record`/`compose` is only needed to produce *new* footage or edits.
   simulated result, is not.
 - Preview before composing: run `studio`, iterate on `video.json` until the user
   approves, and only then run `compose`.
-- Nothing under `projects/` is ever committed, and no video, footage, or app-specific
-  file belongs anywhere else in this repo.
+- Nothing under `projects/` is ever committed except `projects/README.md`, and no
+  video, footage, or app-specific file belongs anywhere else in this repo.
 - Do not write anything into the app repo.
 - Do not install storylab/stickman tooling here.
 - No shared `node_modules` between videolab and target apps.

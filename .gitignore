@@ -4,7 +4,9 @@ node_modules/
 
 # Per-app video workspaces: scratch state + snapshots, never tracked.
 # Versioning for video work happens via .snapshots/ zips inside each folder.
-projects/
+# Exception: projects/README.md is documentation and stays tracked.
+projects/*
+!projects/README.md
 
 # Agent tooling (regenerable via `npx remotion skills add`)
 .agents/
