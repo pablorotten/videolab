@@ -68,8 +68,19 @@ export const Demo: React.FC<DemoProps> = ({
   const isCrop = width !== footageWidth || height !== footageHeight;
   const coverScale = isCrop ? Math.max(width / footageWidth, height / footageHeight) : 1;
   const totalScale = coverScale * zoom.scale;
-  const tx = isCrop ? width / 2 - totalScale * (zoom.originX / 100 * footageWidth) : 0;
-  const ty = isCrop ? height / 2 - totalScale * (zoom.originY / 100 * footageHeight) : 0;
+  // Clamp the pan so the crop window never leaves the footage: the requested
+  // origin may point past the edge (a tall crop on a short recording), and
+  // without this the composition background shows through as a blue band.
+  const cropW = width / totalScale;
+  const cropH = height / totalScale;
+  const panX = cropW >= footageWidth
+    ? footageWidth / 2
+    : Math.min(Math.max(zoom.originX / 100 * footageWidth, cropW / 2), footageWidth - cropW / 2);
+  const panY = cropH >= footageHeight
+    ? footageHeight / 2
+    : Math.min(Math.max(zoom.originY / 100 * footageHeight, cropH / 2), footageHeight - cropH / 2);
+  const tx = isCrop ? width / 2 - totalScale * panX : 0;
+  const ty = isCrop ? height / 2 - totalScale * panY : 0;
 
   return (
     <AbsoluteFill
