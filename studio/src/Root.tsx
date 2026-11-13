@@ -1,6 +1,7 @@
 import React from 'react';
 import { Composition } from 'remotion';
 import { Demo, type DemoProps } from './components/Demo';
+import { demoPropsSchema } from './schema';
 
 // Placeholder for the Remotion studio preview. Real renders get props from compose.
 const preview: DemoProps = {
@@ -20,20 +21,27 @@ const preview: DemoProps = {
   captions: [],
 };
 
-export const Root: React.FC = () => (
-  <Composition
-    id="Demo"
-    component={Demo}
-    defaultProps={preview}
-    durationInFrames={preview.introFrames + preview.videoFrames + preview.outroFrames}
-    fps={preview.fps}
-    width={preview.width}
-    height={preview.height}
-    calculateMetadata={({ props }) => ({
-      durationInFrames: props.introFrames + props.videoFrames + props.outroFrames,
-      fps: props.fps,
-      width: props.width,
-      height: props.height,
-    })}
-  />
-);
+export const Root: React.FC<{ defaultProps?: DemoProps }> = ({ defaultProps }) => {
+  // `videolab studio` generates an entry that passes render/props.json here, so the
+  // props panel edits the values the preview actually uses. Plain `remotion studio`
+  // (no video) falls back to the placeholder.
+  const props = defaultProps ?? preview;
+  return (
+    <Composition
+      id="Demo"
+      component={Demo}
+      schema={demoPropsSchema}
+      defaultProps={props}
+      durationInFrames={props.introFrames + props.videoFrames + props.outroFrames}
+      fps={props.fps}
+      width={props.width}
+      height={props.height}
+      calculateMetadata={({ props: resolved }) => ({
+        durationInFrames: resolved.introFrames + resolved.videoFrames + resolved.outroFrames,
+        fps: resolved.fps,
+        width: resolved.width,
+        height: resolved.height,
+      })}
+    />
+  );
+};

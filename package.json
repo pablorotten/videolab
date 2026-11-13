@@ -16,10 +16,13 @@
   },
   "devDependencies": {
     "@remotion/cli": "^4.0.541",
+    "@remotion/zod-types": "^4.0.541",
     "playwright": "^1.65.0",
-    "remotion": "^4.0.541"
+    "remotion": "^4.0.541",
+    "zod": "^4.6.7"
   },
   "dependencies": {
+    "@remotion/google-fonts": "4.0.541",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   }
