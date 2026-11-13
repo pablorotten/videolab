@@ -18,6 +18,16 @@ projects/<app>/<video>/
 `<app>` is the `name` field in that app's `demo.yml`. `record` and `compose` create
 these folders; nothing else should.
 
+## Snapshots
+
+To bookmark a working state, follow the exact recipes in
+`<videolab>/AGENTS.md`, section **"Snapshots — save and restore a video's
+state"**. Summary: zip everything in this folder except `.snapshots/` into
+`.snapshots/<timestamp>_<label>.zip`, and record label + comment in
+`.snapshots/manifest.json`. Restoring is destructive and all-or-nothing —
+confirm with the user and follow the AGENTS.md recipe exactly. Do not invent
+your own snapshot format or location.
+
 Losing this folder costs you the scripts, not the videos you already exported —
 copy anything worth keeping out of `out/` before deleting.
 

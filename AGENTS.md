@@ -49,6 +49,10 @@ node <videolab>/bin/videolab.js compose <video>
 To make a new video, copy an existing `projects/<app>/<video>/` folder and edit its
 `flow.js` and `video.json`.
 
+When the user asks to save or restore a video's state ("take a snapshot",
+"go back to the baseline"), use the **Snapshots** section below — exact
+commands, do not improvise a different format.
+
 **May edit:** `projects/<app>/<video>/flow.js` and `projects/<app>/<video>/video.json`.
 
 **Never edit:** `bin/`, `lib/`, `studio/`, another app's `projects/` folder, or any
