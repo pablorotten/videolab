@@ -82,9 +82,9 @@ traps:
   `video.json`.
 
 Fonts: a system family (`Arial`, `Georgia`, `Verdana`) is a plain string in
-`video.json`. A Google Font needs `loadFont()`, which is code — keep those calls in a
-single font registry module, never inside a component, so `video.json` still only
-names the family.
+`video.json`. A Google Font needs `loadFont()`, which is code — register it in
+`studio/src/fonts.ts`, never inside a component, so `video.json` still only names the
+family.
 
 ### Canvas edits that slipped into TypeScript
 

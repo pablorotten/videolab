@@ -1,5 +1,6 @@
 import React from 'react';
 import { AbsoluteFill, interpolate, useCurrentFrame } from 'remotion';
+import { resolveFontFamily } from '../fonts';
 
 export type IntroStyle = {
   background?: string;
@@ -7,6 +8,7 @@ export type IntroStyle = {
   titleFontSize?: number;
   subtitleColor?: string;
   subtitleFontSize?: number;
+  fontFamily?: string;
   fontWeight?: number | string;
 };
 
@@ -16,6 +18,7 @@ const DEFAULT_INTRO_STYLE: Required<IntroStyle> = {
   titleFontSize: 76,
   subtitleColor: '#c4b5fd',
   subtitleFontSize: 26,
+  fontFamily: 'Arial, sans-serif',
   fontWeight: 900,
 };
 
@@ -26,7 +29,7 @@ export const Intro: React.FC<{ title: string; subtitle: string; frames: number; 
   const scale = interpolate(frame, [0, frames], [0.92, 1], { extrapolateRight: 'clamp' });
   const s = { ...DEFAULT_INTRO_STYLE, ...(style ?? {}) };
   return (
-    <AbsoluteFill style={{ opacity, justifyContent: 'center', alignItems: 'center', background: s.background }}>
+    <AbsoluteFill style={{ opacity, justifyContent: 'center', alignItems: 'center', background: s.background, fontFamily: resolveFontFamily(s.fontFamily) }}>
       <div style={{ transform: `scale(${scale})`, textAlign: 'center' }}>
         <div style={{ fontSize: s.titleFontSize, fontWeight: s.fontWeight, color: s.titleColor }}>{title.toUpperCase()}</div>
         <div style={{ marginTop: 22, fontSize: s.subtitleFontSize, color: s.subtitleColor }}>{subtitle}</div>

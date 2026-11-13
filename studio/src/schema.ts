@@ -31,7 +31,7 @@ export const captionStyleSchema = z.object({
   background: z.string().describe('Plate colour behind the text. Any CSS colour or gradient.'),
   border: z.string().describe('CSS border, e.g. 2px solid #67e8f9.'),
   color: zColor().describe('Text colour.'),
-  fontFamily: z.string(),
+  fontFamily: z.string().describe('System family (Arial, Georgia...) or a Google Font registered in studio/src/fonts.ts.'),
   fontWeight: z.number().min(1).describe('Numeric weight: 400, 700 or 900.'),
   borderRadius: z.number().min(0),
   boxShadow: z.string().describe('CSS box-shadow.'),
@@ -46,6 +46,7 @@ export const introStyleSchema = z.object({
   titleFontSize: z.number().min(1),
   subtitleColor: zColor().describe('Subtitle colour.'),
   subtitleFontSize: z.number().min(1),
+  fontFamily: z.string().describe('System family (Arial, Georgia...) or a Google Font registered in studio/src/fonts.ts.'),
   fontWeight: z.number().min(1).describe('Numeric weight: 400, 700 or 900.'),
 });
 
@@ -55,6 +56,7 @@ export const outroStyleSchema = z.object({
   taglineFontSize: z.number().min(1),
   titleColor: zColor().describe('Title colour.'),
   titleFontSize: z.number().min(1),
+  fontFamily: z.string().describe('System family (Arial, Georgia...) or a Google Font registered in studio/src/fonts.ts.'),
   fontWeight: z.number().min(1).describe('Numeric weight: 400, 700 or 900.'),
 });
 

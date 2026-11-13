@@ -1,5 +1,6 @@
 import React from 'react';
 import { AbsoluteFill, interpolate, useCurrentFrame } from 'remotion';
+import { resolveFontFamily } from '../fonts';
 
 export type CaptionStyle = {
   background?: string;
@@ -34,7 +35,7 @@ export const Caption: React.FC<{ text: string; frames: number; style?: CaptionSt
   const s = { ...DEFAULT_CAPTION_STYLE, ...(style ?? {}) };
   return (
     <AbsoluteFill style={{ opacity, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 42, pointerEvents: 'none' }}>
-      <div style={{ background: s.background, border: s.border, borderRadius: s.borderRadius, color: s.color, fontFamily: s.fontFamily, fontWeight: s.fontWeight, padding: s.padding, fontSize: s.fontSize, boxShadow: s.boxShadow, transform: s.transform }}>
+      <div style={{ background: s.background, border: s.border, borderRadius: s.borderRadius, color: s.color, fontFamily: resolveFontFamily(s.fontFamily), fontWeight: s.fontWeight, padding: s.padding, fontSize: s.fontSize, boxShadow: s.boxShadow, transform: s.transform }}>
         {text}
       </div>
     </AbsoluteFill>
