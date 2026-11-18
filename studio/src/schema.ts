@@ -27,37 +27,43 @@ export const captionSchema = z.object({
   text: z.string().describe('Caption line. Keep it short enough to read at a glance.'),
 });
 
+// Style objects are partial overrides: a video may set only one field, and the rest
+// stay undefined and fall back to the component defaults. Every field is optional —
+// a required one makes the Studio props panel crash on partial overrides.
+const family = z.string().optional().describe('System family (Arial, Georgia...) or a Google Font registered in studio/src/fonts.ts.');
+const weight = z.number().min(1).optional().describe('Numeric weight: 400, 700 or 900.');
+
 export const captionStyleSchema = z.object({
-  background: z.string().describe('Plate colour behind the text. Any CSS colour or gradient.'),
-  border: z.string().describe('CSS border, e.g. 2px solid #67e8f9.'),
-  color: zColor().describe('Text colour.'),
-  fontFamily: z.string().describe('System family (Arial, Georgia...) or a Google Font registered in studio/src/fonts.ts.'),
-  fontWeight: z.number().min(1).describe('Numeric weight: 400, 700 or 900.'),
-  borderRadius: z.number().min(0),
-  boxShadow: z.string().describe('CSS box-shadow.'),
-  transform: z.string().describe('CSS transform, e.g. rotate(-1deg).'),
-  padding: z.string().describe('CSS padding, e.g. 12px 24px.'),
-  fontSize: z.number().min(1),
+  background: z.string().optional().describe('Plate colour behind the text. Any CSS colour or gradient.'),
+  border: z.string().optional().describe('CSS border, e.g. 2px solid #67e8f9.'),
+  color: zColor().optional().describe('Text colour.'),
+  fontFamily: family,
+  fontWeight: weight,
+  borderRadius: z.number().min(0).optional(),
+  boxShadow: z.string().optional().describe('CSS box-shadow.'),
+  transform: z.string().optional().describe('CSS transform, e.g. rotate(-1deg).'),
+  padding: z.string().optional().describe('CSS padding, e.g. 12px 24px.'),
+  fontSize: z.number().min(1).optional(),
 });
 
 export const introStyleSchema = z.object({
-  background: z.string().describe('CSS background: a colour or a gradient.'),
-  titleColor: zColor().describe('Title colour.'),
-  titleFontSize: z.number().min(1),
-  subtitleColor: zColor().describe('Subtitle colour.'),
-  subtitleFontSize: z.number().min(1),
-  fontFamily: z.string().describe('System family (Arial, Georgia...) or a Google Font registered in studio/src/fonts.ts.'),
-  fontWeight: z.number().min(1).describe('Numeric weight: 400, 700 or 900.'),
+  background: z.string().optional().describe('CSS background: a colour or a gradient.'),
+  titleColor: zColor().optional().describe('Title colour.'),
+  titleFontSize: z.number().min(1).optional(),
+  subtitleColor: zColor().optional().describe('Subtitle colour.'),
+  subtitleFontSize: z.number().min(1).optional(),
+  fontFamily: family,
+  fontWeight: weight,
 });
 
 export const outroStyleSchema = z.object({
-  background: z.string().describe('CSS background: a colour or a gradient.'),
-  taglineColor: zColor().describe('Tagline colour.'),
-  taglineFontSize: z.number().min(1),
-  titleColor: zColor().describe('Title colour.'),
-  titleFontSize: z.number().min(1),
-  fontFamily: z.string().describe('System family (Arial, Georgia...) or a Google Font registered in studio/src/fonts.ts.'),
-  fontWeight: z.number().min(1).describe('Numeric weight: 400, 700 or 900.'),
+  background: z.string().optional().describe('CSS background: a colour or a gradient.'),
+  taglineColor: zColor().optional().describe('Tagline colour.'),
+  taglineFontSize: z.number().min(1).optional(),
+  titleColor: zColor().optional().describe('Title colour.'),
+  titleFontSize: z.number().min(1).optional(),
+  fontFamily: family,
+  fontWeight: weight,
 });
 
 export const demoPropsSchema = z.object({
