@@ -5,7 +5,7 @@ here is committed work — when an idea graduates, it moves to `PLAN.md` (and a
 GitHub issue) and gets checked off here. The graveyard at the bottom records
 what was decided against, so it doesn't get re-proposed.
 
-Started 2026-11, alongside the `v0.4 - dual mode` plan.
+Started 2026-11, alongside the `v0.5 - three modes` plan.
 
 ## Capture experiments
 
@@ -161,7 +161,7 @@ Videolab tie-in: steps 2, 5 and 6 already exist here (Remotion core, `studio`
 preview without rendering, notes→`video.json`). Adoptable additions:
 reference-first in the film brief, 3 storyboard variants before committing
 `video.json`, and a per-beat still sheet as an approval artifact. Film mode
-(PLAN.md v0.4) *is* this workflow.
+(PLAN.md v0.5) *is* this workflow.
 
 Evaluation angle for all five: same brief into OpenCode, then score the edit
 loop — can the agent change one caption without touching anything else
@@ -188,17 +188,6 @@ video byte-stable?
 - Social presets: framed 9:16 and 1:1 exports that pan within desktop footage
   (`width`/`height` already enables this — what's missing is good default
   framing and pacing per format).
-- Diagram explainer from user-provided icons: the user drops SVG/PNG icons in
-  a folder and describes the schema in natural language ("client and server,
-  arrow between them, then the gateway appears in the middle with zoom"). The
-  agent transcribes it to a manifest (nodes, edges, appearance order, zooms,
-  labels) plus a Remotion component that paints icons, arrows and geometric
-  shapes as SVG. Output: clean silent MP4 → the user takes it to CapCut for
-  music/voiceover. Same family as the LLM-explainer video: film mode, no
-  recording, free model viable (it's spec → code, not craft). New pieces vs
-  that project: a small diagram data format and an icons+arrows SVG
-  component — a day or two, not a rewrite. This is film mode's canonical
-  use case.
 - Local status page: tiny web view of every workspace with thumbnails, mode,
   and status, so `list` gets a face.
 - CI final renders: footage lives in gitignored `projects/`, so this needs
