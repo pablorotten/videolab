@@ -49,10 +49,27 @@ projects/<app>/<video>/
 `projects/` wholesale. It can be deleted at any time; recreating a video
 re-forks from the current template.
 
+## Working directions (bidirectional)
+
+Videolab reads the app repo and writes only into itself. Either side can start:
+
+- **From the app repo** ("make a video of this app"): the primary contract. Run
+  the CLI with the app repo as the working directory.
+- **From videolab** ("go to this folder, there's a project there — run it and
+  make a video"): run the same commands from videolab and pass
+  `--cwd <app-repo>` so `demo.yml` is found, e.g.
+  `node <videolab>/bin/videolab.js record tour --cwd C:/path/to/app-repo`.
+  Equivalently, set the per-command working directory to the app repo. Either
+  way the app repo is only ever **read**: footage, scaffolds and renders land
+  in `projects/` here. Do not permanently move the session into the app repo.
+- **`videolab list`** adapts: with a `demo.yml` in the working directory it
+  lists that app's videos; without one it lists every app's videos
+  (`app/video`), so it works from videolab itself.
+
 ## Contract for agents working from an app repo
 
 The app repo (the one with `demo.yml`) stays clean — videolab never writes into it.
-Run the CLI from the app repo, never `cd` into videolab:
+Run the CLI from the app repo (or pass `--cwd <app-repo>` from anywhere):
 
 ```
 node <videolab>/bin/videolab.js list
@@ -127,7 +144,8 @@ node <videolab>/bin/videolab.js studio <video>
 - Studio shows a real props panel (sliders/no-drag number fields/colour pickers)
   built from the project's `studio/src/schema.ts`.
 - Port defaults to 3000 and falls back to the next free port. Tell the user the URL.
-- The server runs from the videolab root, but invoke the command from the app repo.
+- The server runs from the videolab root, but invoke the command from the app repo
+  (or with `--cwd <app-repo>`).
 - The command keeps running until stopped (Ctrl+C). Run it in the background so the
   agent can keep editing while the user reviews.
 

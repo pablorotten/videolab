@@ -15,7 +15,8 @@ existing videos.
 
 ## Usage
 
-From the app repo (the one with `demo.yml`):
+From the app repo (the one with `demo.yml`), or from anywhere with
+`--cwd <app-repo>` — the app repo is only read, never written:
 
 ```
 node C:/Users/pablo/DEV/projects/videolab/bin/videolab.js list
