@@ -10,9 +10,11 @@ import { readDemo, VIDEOLAB_ROOT } from "../lib/app.js";
 import { record } from "../lib/record.js";
 import { compose } from "../lib/compose.js";
 import { studio } from "../lib/studio.js";
+import { scaffold } from "../lib/scaffold.js";
 
 const USAGE = `Usage (run from the app repo that contains demo.yml):
   videolab list              list this app's videos
+  videolab new <video>       scaffold a video: copy the template + starter flow and video.json
   videolab record <video>    run the video's flow.js and save raw footage
   videolab studio <video>    open Remotion Studio with this video's edit (no render)
   videolab compose <video>   render raw footage + video.json to out/<video>.mp4
@@ -30,6 +32,7 @@ async function list() {
 const [command, video] = process.argv.slice(2);
 try {
   if (command === "list") await list();
+  else if (command === "new" && video) await scaffold(video);
   else if (command === "record" && video) process.exitCode = await record(video);
   else if (command === "studio" && video) process.exitCode = await studio(video);
   else if (command === "compose" && video) await compose(video);
