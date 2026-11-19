@@ -79,6 +79,8 @@ export const demoPropsSchema = z.object({
   // Derived: written by buildProps() in lib/compose.js from video.json and the footage.
   // Editable for quick experiments, but changing them desyncs the preview from the render.
   videoSrc: z.string().describe('Footage file inside render/. Derived from video.json.'),
+  audioSrc: z.string().nullable().optional().describe('Loopback WAV inside render/, when audio recording is enabled.'),
+  audioOffsetFrames: z.number().optional().describe('Audio shift in frames; negative trims audio that started early.'),
   fps: z.number().min(1).max(120).multipleOf(1).describe('Derived from video.json.'),
   width: z.number().min(1).describe('Output width. Derived from video.json.'),
   height: z.number().min(1).describe('Output height. Derived from video.json.'),

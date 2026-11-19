@@ -6,6 +6,8 @@ import { demoPropsSchema } from './schema';
 // Placeholder for the Remotion studio preview. Real renders get props from compose.
 const preview: DemoProps = {
   videoSrc: 'footage.mp4',
+  audioSrc: null,
+  audioOffsetFrames: 0,
   title: 'Demo',
   subtitle: '',
   tagline: '',

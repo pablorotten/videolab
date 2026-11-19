@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbsoluteFill, Easing, OffthreadVideo, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion';
+import { AbsoluteFill, Audio, Easing, OffthreadVideo, Sequence, interpolate, staticFile, useCurrentFrame } from 'remotion';
 import { Caption, type CaptionStyle } from './Caption';
 import { Intro, type IntroStyle } from './Intro';
 import { Outro, type OutroStyle } from './Outro';
@@ -9,6 +9,8 @@ export type CaptionCue = { from: number; durationInFrames: number; text: string 
 
 export type DemoProps = {
   videoSrc: string;
+  audioSrc?: string | null;
+  audioOffsetFrames?: number;
   title: string;
   subtitle: string;
   tagline: string;
@@ -51,7 +53,7 @@ const zoomAt = (frame: number, keys: ZoomKey[]): ZoomKey => {
 };
 
 export const Demo: React.FC<DemoProps> = ({
-  videoSrc, title, subtitle, tagline, fps, width, height, footageWidth, footageHeight, introFrames, videoFrames, outroFrames, zooms, captions, captionStyle, introStyle, outroStyle,
+  videoSrc, audioSrc, audioOffsetFrames = 0, title, subtitle, tagline, fps, width, height, footageWidth, footageHeight, introFrames, videoFrames, outroFrames, zooms, captions, captionStyle, introStyle, outroStyle,
 }) => {
   const frame = useCurrentFrame();
   const videoFrame = Math.max(0, frame - introFrames);
@@ -94,6 +96,16 @@ export const Demo: React.FC<DemoProps> = ({
       </Sequence>
       <Sequence from={introFrames} durationInFrames={videoFrames} premountFor={fps}>
         <AbsoluteFill style={{ opacity, overflow: 'hidden' }}>
+          {audioSrc ? (
+            audioOffsetFrames >= 0 ? (
+              <Sequence from={audioOffsetFrames}>
+                <Audio src={staticFile(audioSrc)} />
+              </Sequence>
+            ) : (
+              // Audio started before the screencast: trim its leading seconds.
+              <Audio src={staticFile(audioSrc)} startFrom={-audioOffsetFrames} />
+            )
+          ) : null}
           <OffthreadVideo
             src={staticFile(videoSrc)}
             muted
